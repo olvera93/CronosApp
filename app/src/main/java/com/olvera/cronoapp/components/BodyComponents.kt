@@ -36,5 +36,13 @@ fun MainTextField(
             .padding(bottom = 15.dp)
 
     )
+}
 
+@Composable
+fun timeFormat(time: Long): String {
+    val seconds = (time / 1000) % 60
+    val minutes = (time / 1000 / 60) % 60
+    val hours = time / 1000 / 3600
+
+    return String.format("%02d:%02d:%02d", hours, minutes, seconds)
 }
