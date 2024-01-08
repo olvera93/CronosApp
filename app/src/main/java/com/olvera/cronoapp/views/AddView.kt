@@ -1,12 +1,13 @@
 package com.olvera.cronoapp.views
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -17,17 +18,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.olvera.cronoapp.components.FloatButton
+import com.olvera.cronoapp.R
+import com.olvera.cronoapp.components.CircleButton
 import com.olvera.cronoapp.components.MainIconButton
 import com.olvera.cronoapp.components.MainTitle
 import com.olvera.cronoapp.components.timeFormat
 import com.olvera.cronoapp.viewModel.ChronometerViewModel
-import com.olvera.cronoapp.viewModel.CronosViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -79,8 +80,42 @@ fun ContentAddView(
             fontWeight = FontWeight.Bold
         )
 
-        Button(onClick = { chronometerViewModel.start() }) {
-            Text(text = "Start")
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.padding(vertical = 16.dp)
+        ) {
+
+            // Start Button
+            CircleButton(
+                icon = painterResource(id = R.drawable.play),
+                enabled = !state.activeCrono
+            ) {
+                chronometerViewModel.start()
+            }
+
+            // Pause Button
+            CircleButton(
+                icon = painterResource(id = R.drawable.pause),
+                enabled = state.activeCrono
+            ) {
+                chronometerViewModel.pause()
+            }
+
+            // Stop Button
+            CircleButton(
+                icon = painterResource(id = R.drawable.stop),
+                enabled = !state.activeCrono
+            ) {
+                chronometerViewModel.stop()
+            }
+
+            // Save Button
+            CircleButton(
+                icon = painterResource(id = R.drawable.save),
+                enabled = state.showSaveButton
+            ) {
+                chronometerViewModel.showTextField()
+            }
         }
     }
 }

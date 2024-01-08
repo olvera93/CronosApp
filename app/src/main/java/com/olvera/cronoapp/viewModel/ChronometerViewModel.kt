@@ -19,7 +19,7 @@ class ChronometerViewModel: ViewModel() {
     var chronoJob by mutableStateOf<Job?>(null)
         private set
 
-    var time by mutableLongStateOf(0L)
+    var time by mutableStateOf(0L)
         private set
 
     fun onValue(value: String) {
