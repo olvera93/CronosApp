@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import com.olvera.cronoapp.navigation.NavManager
 import com.olvera.cronoapp.ui.theme.CronoAppTheme
 import com.olvera.cronoapp.viewModel.ChronometerViewModel
+import com.olvera.cronoapp.viewModel.CronosViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -18,6 +19,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val chronometerViewModel: ChronometerViewModel by viewModels()
+        val chronosVM: CronosViewModel by viewModels ()
         setContent {
             CronoAppTheme {
                 // A surface container using the 'background' color from the theme
@@ -25,7 +27,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NavManager(chronometerViewModel)
+                    NavManager(chronometerViewModel, chronosVM)
                 }
             }
         }

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -26,13 +27,20 @@ import androidx.navigation.NavController
 import com.olvera.cronoapp.R
 import com.olvera.cronoapp.components.CircleButton
 import com.olvera.cronoapp.components.MainIconButton
+import com.olvera.cronoapp.components.MainTextField
 import com.olvera.cronoapp.components.MainTitle
 import com.olvera.cronoapp.components.timeFormat
+import com.olvera.cronoapp.model.Cronos
 import com.olvera.cronoapp.viewModel.ChronometerViewModel
+import com.olvera.cronoapp.viewModel.CronosViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddView(navController: NavController, chronometerViewModel: ChronometerViewModel) {
+fun AddView(
+    navController: NavController,
+    chronometerViewModel: ChronometerViewModel,
+    cronosViewModel: CronosViewModel
+) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -48,9 +56,7 @@ fun AddView(navController: NavController, chronometerViewModel: ChronometerViewM
             )
         }
     ) {
-
-        ContentAddView(it, navController, chronometerViewModel)
-
+        ContentAddView(it, navController, chronometerViewModel, cronosViewModel)
     }
 }
 
@@ -58,7 +64,8 @@ fun AddView(navController: NavController, chronometerViewModel: ChronometerViewM
 fun ContentAddView(
     it: PaddingValues,
     navController: NavController,
-    chronometerViewModel: ChronometerViewModel
+    chronometerViewModel: ChronometerViewModel,
+    cronosViewModel: CronosViewModel
 ) {
 
     val state = chronometerViewModel.state
@@ -115,6 +122,27 @@ fun ContentAddView(
                 enabled = state.showSaveButton
             ) {
                 chronometerViewModel.showTextField()
+            }
+        }
+
+        if (state.showTextField) {
+            MainTextField(
+                value = state.title,
+                onValueChange = { chronometerViewModel.onValue(it) },
+                label = "Title"
+            )
+
+            Button(onClick = {
+                cronosViewModel.addCrono(
+                    Cronos(
+                        title = state.title,
+                        crono = chronometerViewModel.time
+                    )
+                )
+                chronometerViewModel.stop()
+                navController.popBackStack()
+            }) {
+                Text(text = "Save")
             }
         }
     }
