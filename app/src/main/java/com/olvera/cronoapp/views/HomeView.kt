@@ -84,7 +84,7 @@ fun ContentHomeView(
                         title = item.title,
                         chrono = timeFormat(item.crono)
                     ) {
-
+                        navController.navigate("EditView/${item.id}")
                     }
                 }
             }
